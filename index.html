@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An interactive wooden music box that demonstrates states, transitions, and mechanical cause and effect."
+    />
+    <title>The Wooden Lullaby</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <a class="wordmark" href="#experience" aria-label="The Wooden Lullaby home">
+          <span class="wordmark-mark" aria-hidden="true">♪</span>
+          <span>The Wooden Lullaby</span>
+        </a>
+        <p class="header-note">An interaction study in states &amp; transitions</p>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Hand-cranked music box</p>
+          <h1 id="page-title">Turn motion<br />into melody.</h1>
+        </div>
+        <p class="intro-copy">
+          Every clockwise turn moves the mechanism forward. The cylinder advances,
+          a metal tooth is plucked, and the lullaby continues—only as far as you turn.
+        </p>
+      </section>
+
+      <section class="experience" id="experience" aria-label="Interactive music box">
+        <div class="music-box-card">
+          <div class="card-toolbar">
+            <div class="live-status" aria-live="polite">
+              <span class="status-dot" aria-hidden="true"></span>
+              <span id="stateLabel">Idle</span>
+            </div>
+            <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">
+              <span aria-hidden="true" id="soundIcon">◖))</span>
+              <span id="soundLabel">Sound on</span>
+            </button>
+          </div>
+
+          <div class="stage" id="stage">
+            <div class="instruction" id="instruction">
+              <span class="instruction-arrow" aria-hidden="true">↻</span>
+              <span>Drag the handle clockwise</span>
+            </div>
+
+            <div class="music-box" aria-label="Wooden music box with exposed mechanism">
+              <div class="box-lid" aria-hidden="true">
+                <div class="lid-inlay">
+                  <span class="lid-flourish">✦</span>
+                  <span>Brahms’ Lullaby</span>
+                  <small>hand-cranked mechanism</small>
+                </div>
+              </div>
+
+              <div class="box-base" aria-hidden="true">
+                <div class="base-rim"></div>
+                <div class="mechanism-bed">
+                  <div class="comb" id="comb">
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span><span></span>
+                    <span></span><span></span>
+                  </div>
+                  <div class="cylinder" id="cylinder">
+                    <div class="cylinder-pins">
+                      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+                      <i></i><i></i><i></i><i></i>
+                    </div>
+                  </div>
+                  <div class="gear gear-large"></div>
+                  <div class="gear gear-small"></div>
+                  <span class="part-marker marker-comb">4</span>
+                  <span class="part-marker marker-cylinder">3</span>
+                  <span class="part-marker marker-gear">2</span>
+                </div>
+                <div class="base-front">
+                  <span class="keyhole"></span>
+                </div>
+              </div>
+
+              <div class="rotation-guide" aria-hidden="true"></div>
+              <div class="crank-pivot" id="crankPivot">
+                <div class="pivot-cap" aria-hidden="true"></div>
+                <div class="crank-rotator" id="crankRotator">
+                  <div class="crank-arm" aria-hidden="true"></div>
+                  <button
+                    class="crank-handle"
+                    id="crankHandle"
+                    type="button"
+                    aria-label="Crank handle. Drag clockwise, or hold the right arrow key, to play."
+                  >
+                    <span class="handle-grip" aria-hidden="true"></span>
+                    <span class="handle-part-number" aria-hidden="true">1</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <p class="reverse-hint" id="reverseHint" aria-live="polite">
+              The mechanism advances clockwise only.
+            </p>
+          </div>
+
+          <div class="accessible-controls">
+            <button class="hold-button" id="holdButton" type="button">
+              <span aria-hidden="true">↻</span>
+              <span>Hold to turn</span>
+            </button>
+            <p>Keyboard: hold <kbd>→</kbd> anywhere on the page</p>
+            <button class="reset-button" id="resetButton" type="button">Reset</button>
+          </div>
+        </div>
+
+        <aside class="logic-panel" aria-labelledby="logic-title">
+          <div class="logic-heading">
+            <p class="eyebrow">Live system view</p>
+            <h2 id="logic-title">See the state<br />as it changes.</h2>
+          </div>
+
+          <div class="current-state-card" aria-live="polite">
+            <div class="current-state-topline">
+              <span>Current state</span>
+              <span class="state-pulse" aria-hidden="true"></span>
+            </div>
+            <strong id="currentStateTitle">Idle</strong>
+            <p id="currentStateDescription">
+              The crank is still. The cylinder and melody are paused.
+            </p>
+          </div>
+
+          <figure class="overhead-map" aria-labelledby="map-title">
+            <div class="map-heading">
+              <span id="map-title">Bird’s-eye mechanism map</span>
+              <small>Numbers match the box</small>
+            </div>
+            <div class="map-stage" aria-label="Top view of the music box mechanism">
+              <div class="map-base" aria-hidden="true">
+                <div class="map-comb map-part" data-part="4">
+                  <span class="map-number">4</span>
+                </div>
+                <div class="map-cylinder map-part" data-part="3">
+                  <i></i><i></i><i></i><i></i><i></i><i></i>
+                  <span class="map-number">3</span>
+                </div>
+                <div class="map-shaft"></div>
+                <div class="map-worm map-part" data-part="2">
+                  <span class="map-number">2</span>
+                </div>
+                <div class="map-crank map-part" data-part="1">
+                  <span class="map-number">1</span>
+                  <i></i>
+                </div>
+              </div>
+            </div>
+            <figcaption>
+              <span><b>1</b> Crank</span>
+              <span><b>2</b> Worm gear</span>
+              <span><b>3</b> Cylinder</span>
+              <span><b>4</b> Comb</span>
+            </figcaption>
+          </figure>
+
+          <div class="signal-flow" aria-label="Visible mechanical process">
+            <div class="signal-step" data-step="input">
+              <span class="step-number">01</span>
+              <div>
+                <small>Input</small>
+                <strong>Hand turns crank</strong>
+              </div>
+            </div>
+            <span class="flow-line" aria-hidden="true"></span>
+            <div class="signal-step" data-step="transfer">
+              <span class="step-number">02</span>
+              <div>
+                <small>Transfer</small>
+                <strong>Worm gear carries motion</strong>
+              </div>
+            </div>
+            <span class="flow-line" aria-hidden="true"></span>
+            <div class="signal-step" data-step="process">
+              <span class="step-number">03</span>
+              <div>
+                <small>Process</small>
+                <strong>Pinned cylinder rotates</strong>
+              </div>
+            </div>
+            <span class="flow-line" aria-hidden="true"></span>
+            <div class="signal-step" data-step="output">
+              <span class="step-number">04</span>
+              <div>
+                <small>Output</small>
+                <strong>Comb is plucked; music plays</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="state-section">
+            <div class="section-label">
+              <span>State transition</span>
+              <span id="transitionLabel">Waiting for input</span>
+            </div>
+            <div class="state-track">
+              <div class="state-node is-active" data-state="idle">
+                <span></span>
+                <div>
+                  <strong>Idle</strong>
+                  <small>No input · mechanism still</small>
+                </div>
+              </div>
+              <div class="state-connector"><span>press handle</span>↓</div>
+              <div class="state-node" data-state="grabbed">
+                <span></span>
+                <div>
+                  <strong>Grabbed</strong>
+                  <small>Input held · waiting for motion</small>
+                </div>
+              </div>
+              <div class="state-connector"><span>turn clockwise ≥ 2°</span>↓</div>
+              <div class="state-node" data-state="cranking">
+                <span></span>
+                <div>
+                  <strong>Playing</strong>
+                  <small>Cylinder advances · melody flows</small>
+                </div>
+              </div>
+            </div>
+            <p class="return-transition"><span>Release anywhere</span> → Idle</p>
+          </div>
+
+          <div class="readout" aria-label="Music box data">
+            <div>
+              <small>Total rotation</small>
+              <strong><span id="rotationReadout">0</span>°</strong>
+            </div>
+            <div>
+              <small>Melody position</small>
+              <strong><span id="melodyReadout">0</span>%</strong>
+            </div>
+          </div>
+
+          <p class="logic-note">
+            <span aria-hidden="true">✦</span>
+            Every 2° of clockwise motion advances the musical sequence.
+          </p>
+        </aside>
+      </section>
+
+      <section class="explanation" aria-labelledby="rule-title">
+        <p class="eyebrow">The governing rule</p>
+        <h2 id="rule-title">No rotation, no new notes.</h2>
+        <div class="rule-grid">
+          <p>
+            The user supplies the energy. Moving the crank changes the system from
+            <em>idle</em> to <em>playing</em>. Each 2° step advances the mechanism and
+            keeps the recording flowing while the crank moves.
+          </p>
+          <p>
+            Releasing the handle stops the cylinder immediately, while the final metal
+            note is allowed to fade naturally.
+          </p>
+        </div>
+      </section>
+
+      <footer>
+        <span>The Wooden Lullaby</span>
+        <span>States · steps · transitions</span>
+      </footer>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
